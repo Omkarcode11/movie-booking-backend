@@ -22,31 +22,35 @@ exports.createUser = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  let body = req.body;
-  let user;
+  try {
+    let body = req.body;
+    let user;
 
-  if (body.type == "email") {
-    user = await User.findOne({ email: body.cred });
-  } else {
-    user = await User.findOne({ phone: body.phone });
+    if (body.type == "email") {
+      user = await User.findOne({ email: body.cred });
+    } else {
+      user = await User.findOne({ phone: body.phone });
+    }
+
+    if (user) {
+      return res.status(404).send("User Not found");
+    }
+
+    let isMatch = await bcrypt.compare(body.password, user.password);
+
+    if (!isMatch) return res.status(400).send("Password is Wrong Try again");
+
+    let hashObj = {
+      id: user._id,
+      type: user.userType,
+    };
+
+    let token = jwt.sign(hashObj, SECRET_KEY, { expiresIn: "100000" });
+
+    return res.send({
+      token: token,
+    });
+  } catch (err) {
+    return res.status(500).send({ err, message: "enteral Error" });
   }
-
-  if (user) {
-    return res.status(404).send("User Not found");
-  }
-
-  let isMatch = await bcrypt.compare(body.password, user.password);
-
-  if (!isMatch) return res.status(400).send("Password is Wrong Try again");
-
-  let hashObj = {
-    id: user._id,
-    type: user.userType,
-  };
-
-  let token = jwt.sign(hashObj, SECRET_KEY, { expiresIn: "100000" });
-
-  return res.send({
-    token: token,
-  });
 };
