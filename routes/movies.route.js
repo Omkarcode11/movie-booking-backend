@@ -9,19 +9,19 @@ const { jwtValidation } = require("../middleware/jwtValidation");
 const { verifyMoviesReqBody } = require("../middleware/verifyMovieReqBody");
 
 module.exports = function (app) {
-  app.get("movies/v1/auth/getMovieById/:Id", getMovieById);
+  app.get("movies/v1/movies/getMovieById/:Id", getMovieById);
   app.post(
-    "movies/v1/auth/addMovie",
+    "movies/v1/movies/addMovie",
     [jwtValidation, isAdmin, verifyMoviesReqBody],
     createMovie
   );
   app.put(
-    "movies/v1/auth/updateMovieById/:Id",
+    "movies/v1/movies/updateMovieById/:Id",
     [jwtValidation, isAdmin, verifyMoviesReqBody],
     updateMovieById
   );
   app.delete(
-    "movies/v1/auth/deleteMovieById/:Id",
+    "movies/v1/movies/deleteMovieById/:Id",
     [jwtValidation, isAdmin],
     deleteMovieById
   );
