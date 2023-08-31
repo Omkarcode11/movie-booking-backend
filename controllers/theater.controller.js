@@ -93,7 +93,9 @@ exports.addMovieInTheater = async (req, res) => {
       let movie = await Movie.findById(req.prams.movieId);
       if (movie) {
         theater.movies.push(req.params.movieId);
+        movie.theaters.push(req.params.theaterId)
         await theater.save();
+        await movie.save();
       } else {
         return res.status(400).send("Movie Id is incorrect");
       }
@@ -104,3 +106,7 @@ exports.addMovieInTheater = async (req, res) => {
     return res.status(500).send("Internal Error");
   }
 };
+
+exports.checkMovieInTheater = async(req,res)=>{
+    
+}
