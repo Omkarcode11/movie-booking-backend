@@ -17,7 +17,7 @@ exports.createMovie = async (req, res) => {
 
 exports.deleteMovieById = async (req, res) => {
   try {
-    let movieId = req.body.id;
+    let movieId = req.params.Id;
 
     if (!movieId || movieId.length < 5)
       return res.status(400).send("Your movie Id is not correct");
@@ -36,7 +36,7 @@ exports.deleteMovieById = async (req, res) => {
 
 exports.getMovieById = async (req, res) => {
   try {
-    let movieId = req.body.id;
+    let movieId = req.params.Id;
 
     if (!movieId) return res.status(400).send("movie Id is missing");
 
@@ -54,7 +54,7 @@ exports.getMovieById = async (req, res) => {
 
 exports.updateMovieById = async (req, res) => {
   try {
-    let movieId = req.params.id;
+    let movieId = req.params.Id;
     let updateMovie = req.body;
 
     let movie = await Movie.findById(movieId);

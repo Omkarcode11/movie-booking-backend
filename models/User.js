@@ -12,14 +12,18 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: Number,
+    unique: true,
   },
   email: {
-    type: Number,
-    require: true,
+    type: String,
+    unique: true,
+    required: true,
+    lowercase: true,
+    trim: true,
   },
-  password:{
-    type:String,
-    require:true,
+  password: {
+    type: String,
+    require: true,
   },
   userType: {
     type: String,
@@ -27,11 +31,11 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: () => new Date.now(),
+    default: Date.now(),
   },
   updatedAt: {
     type: Date,
-    default: () => new Date.now(),
+    default: Date.now(),
   },
 });
 

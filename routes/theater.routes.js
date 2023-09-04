@@ -16,37 +16,36 @@ const {
 
 module.exports = function (app) {
   app.get(
-    "movies/v1/theater/getTheaterById/:id",
-    [jwtValidation, idValidation],
+    "/movies/v1/theater/getTheaterById/:id",
+    [jwtValidation],
     getTheaterById
   );
   app.get(
-    "movies/v1/movies/getAllTheater/",
+    "/movies/v1/theater/getAllTheater",
     [jwtValidation, isAdmin],
     getAllTheater
   );
   app.get(
-    "movies/v1/movies/addMovieInTheater/:theaterId/:movieId",
-    [jwtValidation, isAdmin],
-    addMovieInTheater
-  );
-  app.get(
-    "movies/v1/movies/getAllMovieInTheater/:id"[jwtValidation],
+    "/movies/v1/theater/getAllMovieInTheater/:id",[jwtValidation],
     getAllMoviesInTheater
   );
   app.post(
-    "movies/v1/movies/createTheater/",
+    "/movies/v1/theater/createTheater",
     [jwtValidation, theaterBodyValidation],
     createTheater
   );
   app.put(
-    "movies/v1/movies/updateTheaterById/:id",
-    [jwtValidation, theaterBodyValidation, idValidation],
+    "/movies/v1/theater/updateTheaterById/:id",
+    [jwtValidation,isAdmin, theaterBodyValidation],
     updateTheater
   );
   app.delete(
-    "movies/v1/movies/deleteTheaterById/:id",
-    [jwtValidation, idValidation],
+    "/movies/v1/theater/deleteTheaterById/:id",
+    [jwtValidation,isAdmin],
     deleteTheater
   );
+  app.put(
+    '/movies/v1/theater/addMovieInTheater/:movieId/:theaterId', [jwtValidation,isAdmin],
+    addMovieInTheater
+  )
 };

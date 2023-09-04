@@ -1,3 +1,11 @@
-completed Auth (create User / login)
+completed  
+all auth route is working 
+all movie route is working 
 
-pending creating movie (create Movie / updated movie / delete Movie / get movie )
+
+
+pending  
+get all movies (query)
+remove movie in theater
+get all theater (query)
+

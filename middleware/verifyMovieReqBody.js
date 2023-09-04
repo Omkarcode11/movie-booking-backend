@@ -1,6 +1,6 @@
 exports.verifyMoviesReqBody = (req, res, next) => {
   let body = req.body;
-  for (const key in Object.keys(body)) {
+  for (const key in body) {
     if (key == "casts" || key == "language") {
       if (body[key].length == 0) {
         return res.status(300).send(`Enter at least one ${key}`);

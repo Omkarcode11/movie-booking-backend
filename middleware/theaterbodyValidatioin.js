@@ -3,8 +3,16 @@ const { default: mongoose } = require("mongoose");
 exports.theaterBodyValidation = (req, res, next) => {
   try {
     let body = req.body;
-    for (const key in body.keys()) {
-      if (key == "movies") continue;
+    for (const key in body) {
+      if (key == "movies") {
+        if(body[key].length){
+          for(let i = 0 ;i<body[key].length;i++){
+            if(!mongoose.Types.ObjectId.isValid(body[key])){
+                return res.status(400).send("Movies id is wrong")
+            }
+          }
+        }
+      }
       else if (key == "pinCode") {
         if (body[key] < 100000 && body[key] > 999999) {
           return res.status(400).send("pinCode is incorrect");

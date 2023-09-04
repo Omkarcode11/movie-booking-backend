@@ -2,7 +2,7 @@ const User = require("../models/User");
 const { userType } = require("../utils/constants");
 
 exports.isAdmin = async (req, res, next) => {
-  let admin = await User.findById(req.id);
+  let admin = await User.findById(req.userId);
 
   if (!admin) return res.status(300).send("Admin Not found");
 

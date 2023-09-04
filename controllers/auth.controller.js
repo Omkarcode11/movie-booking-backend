@@ -9,15 +9,15 @@ exports.createUser = async (req, res) => {
   try {
     body.password = await bcrypt.hash(body.password, 10);
 
-    let User = await User.create(body);
+    let user = await User.create(body);
 
-    if (User) {
+    if (user) {
       return res.status(200).send("User created Successfully");
     } else {
       return res.status(400).send("User Not created Successfully");
     }
   } catch (err) {
-    return res.status(500).send("Internal Error");
+    return res.status(500).send(err.message);
   }
 };
 
@@ -29,14 +29,14 @@ exports.login = async (req, res) => {
     if (body.type == "email") {
       user = await User.findOne({ email: body.cred });
     } else {
-      user = await User.findOne({ phone: body.phone });
+      user = await User.findOne({ phone: body.cred });
     }
 
-    if (user) {
+    if (!user) {
       return res.status(404).send("User Not found");
     }
 
-    let isMatch = await bcrypt.compare(body.password, user.password);
+    let isMatch = bcrypt.compare(body.password, user.password);
 
     if (!isMatch) return res.status(400).send("Password is Wrong Try again");
 
@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
       type: user.userType,
     };
 
-    let token = jwt.sign(hashObj, SECRET_KEY, { expiresIn: "100000" });
+    let token = jwt.sign(hashObj, SECRET_KEY, { expiresIn: "2h" });
 
     return res.send({
       token: token,
