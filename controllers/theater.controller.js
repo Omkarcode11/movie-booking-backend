@@ -1,12 +1,12 @@
-const  Mongoose  = require("mongoose");
+const Mongoose = require("mongoose");
 const Movie = require("../models/Movie");
 const Theater = require("../models/Theater");
 
 exports.getTheaterById = async (req, res) => {
   try {
-
-    let id = req.params.id
-      if(!Mongoose.Types.ObjectId.isValid(id))return res.status(400).send("Id is not valid")
+    let id = req.params.id;
+    if (!Mongoose.Types.ObjectId.isValid(id))
+      return res.status(400).send("Id is not valid");
     let theaters = await Theater.findById(id);
 
     if (theaters) {
@@ -92,21 +92,21 @@ exports.getAllMoviesInTheater = async (req, res) => {
 
 exports.addMovieInTheater = async (req, res) => {
   try {
-    let theaterId = req.params.theaterId
-    let movieId = req.params.movieId
+    let theaterId = req.params.theaterId;
+    let movieId = req.params.movieId;
     let theater = await Theater.findById(theaterId);
     if (theater) {
       let movie = await Movie.findById(movieId);
       if (movie) {
-        let isMovie = theater.movies.includes(movieId)
-        if(isMovie)return res.status(400).send("Movie is Already there")
-        let isTheater = movie.theaters.includes(theaterId)
-        if(isTheater)return res.status(400).send("Theater is already there")
+        let isMovie = theater.movies.includes(movieId);
+        if (isMovie) return res.status(400).send("Movie is Already there");
+        let isTheater = movie.theaters.includes(theaterId);
+        if (isTheater) return res.status(400).send("Theater is already there");
         theater.movies.push(req.params.movieId);
-        movie.theaters.push(req.params.theaterId)
+        movie.theaters.push(req.params.theaterId);
         await theater.save();
         await movie.save();
-        return res.status(200).send("Movie is Added Successfully")
+        return res.status(200).send("Movie is Added Successfully");
       } else {
         return res.status(400).send("Movie Id is incorrect");
       }
@@ -118,6 +118,19 @@ exports.addMovieInTheater = async (req, res) => {
   }
 };
 
-exports.checkMovieInTheater = async(req,res)=>{
+exports.checkMovieInTheater = async (req, res) => {
+  try{
+
+    let movieId = req.params.movieId;
+    let theaterId = req.params.theaterId;
     
-}
+    let theater = await Theater.findById(theaterId);
+    if (theater.movies.includes(movieId)) {
+      return res.status(200).send(true);
+    } else {
+      return res.status(300).send(false);
+    }
+  }catch(err){
+    return res.status(500).send("Internal error")
+  }
+};

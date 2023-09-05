@@ -1,11 +1,17 @@
-function CheckPassword(str) {
-    var passw = new RegExp(/^[A-Za-z]\w{7,14}$/);
-    if (str.value.match(passw)) {
-        return true;
-    }
-    else {
-        return false;
-    }
+function happyNumber(n){
+
+    n =  String(n)
+    let sq = 0
+    while(n!="4"){
+   for(let i = 0 ;i<n.length;i++){
+      sq += n[i]**2
+   }
+   if(sq=="1")return true
+   n = String(sq)
+   sq= 0
+   }
+    return false;
 }
 
-console.log(CheckPassword("omkar"))
+
+happyNumber(19)
