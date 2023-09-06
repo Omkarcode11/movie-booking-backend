@@ -11,8 +11,7 @@ const { isAdmin } = require("../middleware/isAdmin");
 const { jwtValidation } = require("../middleware/jwtValidation");
 const {
   theaterBodyValidation,
-  idValidation,
-} = require("../middleware/theaterbodyValidatioin");
+} = require("../middleware/theaterBodyValidation");
 
 module.exports = function (app) {
   app.get(
@@ -26,7 +25,8 @@ module.exports = function (app) {
     getAllTheater
   );
   app.get(
-    "/movies/v1/theater/getAllMovieInTheater/:id",[jwtValidation],
+    "/movies/v1/theater/getAllMovieInTheater/:id",
+    [jwtValidation],
     getAllMoviesInTheater
   );
   app.post(
@@ -36,16 +36,17 @@ module.exports = function (app) {
   );
   app.put(
     "/movies/v1/theater/updateTheaterById/:id",
-    [jwtValidation,isAdmin, theaterBodyValidation],
+    [jwtValidation, isAdmin, theaterBodyValidation],
     updateTheater
   );
   app.delete(
     "/movies/v1/theater/deleteTheaterById/:id",
-    [jwtValidation,isAdmin],
+    [jwtValidation, isAdmin],
     deleteTheater
   );
   app.put(
-    '/movies/v1/theater/addMovieInTheater/:movieId/:theaterId', [jwtValidation,isAdmin],
+    "/movies/v1/theater/addMovieInTheater/:movieId/:theaterId",
+    [jwtValidation, isAdmin],
     addMovieInTheater
-  )
+  );
 };

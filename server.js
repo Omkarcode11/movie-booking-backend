@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 //importing routes
 require("./routes/auth.route")(app);
 require("./routes/movies.route")(app);
-require("./routes/theater.routes.js")(app)
+require("./routes/theater.routes.js")(app);
+require("/routes/user.route")(app);
 
 app.listen(8080, () => console.log("server running is on port 8080"));

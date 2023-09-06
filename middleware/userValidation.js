@@ -3,9 +3,7 @@ const User = require("./../models/User");
 
 exports.userValidate = async (req, res, next) => {
   try {
-    
     let body = req.body;
-    
     for (const key in body) {
       if (key == "phone") continue
       if (!isString(body[key])) {
