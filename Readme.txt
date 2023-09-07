@@ -10,4 +10,4 @@ remove movie in theater
 get all theater (query)
 
 
-18 july
+21 july

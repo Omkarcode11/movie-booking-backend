@@ -30,7 +30,6 @@ exports.updateBooking = async (req, res) => {
     let updateBody = req.body;
     let bookingId = req.params.Id;
     let booking = await Booking.findById(bookingId);
-b
     if (booking.status == bookingStatus.InProgress) {
       if (
         updateBody.status == bookingStatus.Cancel ||
