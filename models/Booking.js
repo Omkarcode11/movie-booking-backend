@@ -16,6 +16,10 @@ const bookingSchema = new Mongoose.Schema({
     ref: "User",
     require: true,
   },
+  seatNo: {
+    type: String,
+    require: true,
+  },
   status: {
     type: String,
     default: "INPROGRESS",

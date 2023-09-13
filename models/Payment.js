@@ -2,7 +2,21 @@ const Mongoose = require("mongoose");
 
 const paymentSchema = new Mongoose.Schema({
   bookingId: {
+    type: [Mongoose.Types.ObjectId],
+    ref: "Booking",
+    require: true,
+  },
+  userId: {
     type: Mongoose.Types.ObjectId,
+    ref: "User",
+    require: true
+  },
+  totalNoSeats: {
+    type: Number,
+    require: true
+  },
+  amount: {
+    type: Number,
     require: true,
   },
   status: {

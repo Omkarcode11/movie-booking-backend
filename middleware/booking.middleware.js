@@ -1,5 +1,7 @@
+const Booking = require("../models/Booking");
 const Movie = require("../models/Movie");
 const User = require("../models/User");
+const { seatValidation } = require("../utils/seatNoValidation");
 
 exports.updateBookingValidation = async (req, res, next) => {
   let updateBody = req.body;
@@ -18,5 +20,26 @@ exports.updateBookingValidation = async (req, res, next) => {
     if (!theater.movies.includes(updateBody.movieId))
       return res.status(404).send("this movie is not in theater");
   }
+
+  if (updateBody.seatNo&& seatValidation(updateBody.seatNo)) {
+    let booking = await Booking.findOne(updateBody);
+    if (booking) {
+      return res.status(400).send("Seat is occupied already")
+    }
+  }
   next();
+};
+
+exports.seatIsAvailable = async (req, res, next) => {
+  let body = req.body;
+  if (!body.movieId) return res.status(400).send("movie id is invalid");
+  if (!body.userId) return res.status(400).send("user id is invalid");
+  if (!body.theaterIdId) return res.status(400).send("theaterId id is invalid");
+  if (!body.seatNos || !seatValidation(body.seatNos)) return res.status(400).send("seatNo id is invalid");
+
+  let booking = await Booking.findOne(body);
+  if (booking) return res.status(400).send("seat is already booked");
+
+  next();
+
 };

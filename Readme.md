@@ -9,5 +9,4 @@ get all movies (query)
 remove movie in theater
 get all theater (query)
 
-
-21 july
+9 aug

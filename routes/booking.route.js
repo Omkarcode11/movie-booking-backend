@@ -4,10 +4,12 @@ const {
   updateBooking,
   deleteBooking,
   createBooking,
+  createMultipleBooking,
 } = require("../controllers/booking.controller");
-const { updateBookingValidation } = require("../middleware/booking.middleware");
+const { updateBookingValidation, seatIsAvailable } = require("../middleware/booking.middleware");
 const { isAdmin } = require("../middleware/isAdmin");
 const { jwtValidation } = require("../middleware/jwtValidation");
+const { seatValidation } = require("../utils/seatNoValidation");
 
 module.exports = function (app) {
   app.get(
@@ -31,8 +33,12 @@ module.exports = function (app) {
     deleteBooking
   );
   app.post(
-    "/movies/v1/booking/createBooking",
+    "/movies/v1/booking/createOneBooking",
     [jwtValidation, updateBookingValidation],
     createBooking
   );
+  app.post(
+    "/movies/v1/booking/createMultipleBooking",[jwtValidation,updateBookingValidation],
+      createMultipleBooking
+  )
 };

@@ -76,7 +76,7 @@ exports.createBooking = async (req, res) => {
 
     let booking = await Booking.create(body);
     if (booking) {
-      return res.status(200).send({ msg: "Booking Successfully Created" });
+      return res.status(200).send({ msg: "Booking Successfully Created", booking: { id: booking._id, userId: body.userId } });
     } else {
       return res.status(400).send({ msg: "Booking is not created" });
     }
@@ -84,3 +84,34 @@ exports.createBooking = async (req, res) => {
     return res.status(error).send({ error, msg: "Internal Error" });
   }
 };
+
+
+exports.createMultipleBooking = async (req, res) => {
+  try {
+    let body = req.body
+    let starRange = Number(body.seatNo.slice(1, 2))
+    let endRange = Number(body.seatNo.slice(4))
+    let char = Number(body.seatNo.slice(0, 1))
+    let allBooking = []
+    let i;
+    for (i = starRange; i <= endRange; i++) {
+      body.seatNo = `${char}${i}`
+      let booking = await Booking.create(body)
+      if (booking)
+        allBooking.push(booking._id)
+      else break
+    }
+
+    if (i == endRange) {
+      return res.status(200).send({ booking: { ids: allBooking, userId: body.userId }, msg: "Booking are created successfully" })
+    }
+    let fail = i
+    for (let i = 0; i < allBooking.length; i++) {
+      await Booking.deleteOne(allBooking[i])
+    }
+    return res.status(400).send({ msg: `All Booking fail because ${fail} seat is not available` })
+
+  } catch (error) {
+    return res.status(error).send({ error, msg: "Internal Error" })
+  }
+}
