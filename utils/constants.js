@@ -18,6 +18,6 @@ const paymentStatus = {
 
 module.exports = {
     userType,
-    bookingStatus
+    bookingStatus,
     paymentStatus
 }
