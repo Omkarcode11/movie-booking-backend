@@ -5,8 +5,30 @@ all movie route is working
 
 
 pending  
-get all movies (query)
-remove movie in theater
-get all theater (query)
+user route 
+theater route
+booking route 
+payment route 
+
 
 9 aug
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+after all Backend
+get all movies (query)
+get all theater (query)

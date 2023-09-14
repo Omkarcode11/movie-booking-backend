@@ -6,6 +6,7 @@ const {
   createTheater,
   updateTheater,
   deleteTheater,
+  removeMovieInTheater,
 } = require("../controllers/theater.controller");
 const { isAdmin } = require("../middleware/isAdmin");
 const { jwtValidation } = require("../middleware/jwtValidation");
@@ -48,5 +49,10 @@ module.exports = function (app) {
     "/movies/v1/theater/addMovieInTheater/:movieId/:theaterId",
     [jwtValidation, isAdmin],
     addMovieInTheater
+  );
+  app.put(
+    "/movies/v1/theater/removeMovieInTheater/:movieId/:theaterId",
+    [jwtValidation, isAdmin],
+    removeMovieInTheater
   );
 };

@@ -14,16 +14,6 @@ exports.createPayment = async (req, res) => {
     }
 };
 
-exports.getPayment = async (req, res) => {
-    try {
-        let payment = await Payment.findById(req.params.Id);
-        if (payment) {
-            return res.status(200).send({ msg: payment });
-        }
-    } catch (err) {
-        return res.status(500).send({ msg: "Internal Error", err });
-    }
-};
 exports.getAllMyPayment = async (req, res) => {
     try {
         let myPayments = await Payment.find({ userId: req.body.userId });
@@ -69,3 +59,57 @@ exports.completePayment = async (req, res) => {
         return res.status(500).send({ msg: "Internal Error", err });
     }
 };
+
+
+exports.updatePayment = async (req, res) => {
+    try {
+
+        let body = req.body
+        let payment = await Payment.findById(req.params.Id)
+        for (let key in body) {
+            if (payment[key] && body[key]) {
+                payment[key] = body[key]
+            }
+        }
+        await payment.save()
+        return res.status(200).send({ msg: "Payment update successfully" })
+
+    } catch (err) {
+        return res.status(500).send({ msg: "Internal Error", err })
+
+    }
+
+}
+
+exports.findPaymentById = async (req, res) => {
+    try {
+
+        let payment = await Payment.findById(req.params.Id)
+        if (payment) {
+            return res.status(200).send(payment)
+        } else {
+            return res.status(404).send({ msg: "payment not found" })
+        }
+
+    } catch (err) {
+
+        return res.status(500).send({ msg: "Internal Error", err })
+    }
+
+}
+
+exports.checkPaymentStatus = async (req, res) => {
+    try {
+
+        let payment = await Payment.find(req.params.Id)
+        if (payment) {
+            return res.status(200).send({ msg: payment.status })
+        } else {
+            return res.status(404).send({ msg: "payment not found" })
+        }
+
+    } catch (err) {
+        return res.status(500).send({ msg: "Internal Error", err })
+    }
+}
+

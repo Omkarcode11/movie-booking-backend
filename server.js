@@ -18,5 +18,6 @@ require("./routes/auth.route")(app);
 require("./routes/movies.route")(app);
 require("./routes/theater.routes.js")(app);
 require("/routes/user.route")(app);
+require('./routes/payment.route')(app)
 
 app.listen(8080, () => console.log("server running is on port 8080"));

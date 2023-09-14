@@ -119,18 +119,47 @@ exports.addMovieInTheater = async (req, res) => {
 };
 
 exports.checkMovieInTheater = async (req, res) => {
-  try{
+  try {
 
     let movieId = req.params.movieId;
     let theaterId = req.params.theaterId;
-    
+
     let theater = await Theater.findById(theaterId);
     if (theater.movies.includes(movieId)) {
       return res.status(200).send(true);
     } else {
       return res.status(300).send(false);
     }
-  }catch(err){
+  } catch (err) {
     return res.status(500).send("Internal error")
   }
 };
+
+
+exports.removeMovieInTheater = async (req, res) => {
+  try {
+    let movieId = req.params.movieId
+    let theaterId = req.params.theaterId
+    let movie = await Movie.findById(movieId)
+    let theater = await Theater.findById(theaterId)
+    if (movie && theater) {
+      let indexMovieId = movie.theaters.indexOf(movieId)
+      let indexTheaterId =  theater.movies.indexOf(theaterId)
+
+      if( indexMovieId&& indexTheaterId){
+          movie.theaters.splice(indexTheaterId,1)
+          theater.movies.splice(indexMovieId,1)
+          await movie.save();
+          await theater.save();
+      }else {
+        return res.status(400).send({msg:"movieId or theater Id is not present "})
+      }
+    } else {
+      if (!movie) return res.status(400).send("movie id is invalid")
+      else return res.status(400).send("theater id is invalid")
+    }
+
+  } catch (error) {
+    return res.status(500).send({ msg: "Internal Error", err: error })
+  }
+}
